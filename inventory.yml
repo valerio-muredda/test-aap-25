@@ -1,0 +1,20 @@
+---
+all:
+  children:
+    automationcontroller:
+      hosts:
+        control:
+          ansible_host: "{{ 'control.' + lookup('ansible.builtin.env', 'INSTRUQT_PARTICIPANT_ID') + '.svc.cluster.local' }}"
+    automationhub:
+      hosts:
+        hub:
+          ansible_host: "{{ 'hub.' + lookup('ansible.builtin.env', 'INSTRUQT_PARTICIPANT_ID') + '.svc.cluster.local' }}"
+    builder:
+      hosts:
+        control:
+          ansible_host: "{{ 'control.' + lookup('ansible.builtin.env', 'INSTRUQT_PARTICIPANT_ID') + '.svc.cluster.local' }}"
+    execution:
+      hosts:
+        localhost:
+          ansible_connection: local
+...

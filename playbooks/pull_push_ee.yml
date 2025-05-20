@@ -1,0 +1,42 @@
+---
+- name: Playbook to configure execution environments
+  hosts: builder
+  gather_facts: false
+  connection: local
+  vars_files:
+    - "../vault.yml"
+  tasks:
+
+    - name: Pull builder images
+      containers.podman.podman_image:
+        name: quay.io/redhat_cop/instruqt_config_as_code:latest
+        validate_certs: false
+        force: true
+
+    - name: Re-tag image
+      containers.podman.podman_tag:
+        image: quay.io/redhat_cop/instruqt_config_as_code
+        target_names:
+          - config_as_code
+
+    - name: Push image to registry
+      containers.podman.podman_image:
+        name: config_as_code
+        pull: false
+        push: true
+        username: "{{ ee_registry_username | default(omit, true) }}"
+        password: "{{ ee_registry_password | default(omit, true) }}"
+        tag: latest
+        validate_certs: false
+        push_args:
+          dest: "{{ ee_registry_dest }}"
+
+    - name: Add Execution Environment to controller
+      ansible.builtin.include_role:
+        name: infra.controller_configuration.execution_environments
+      vars:
+        controller_execution_environments:
+          - image: "{{ ah_host }}/config_as_code"
+            name: config_as_code
+            pull: always
+...

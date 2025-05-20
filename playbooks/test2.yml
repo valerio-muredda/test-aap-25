@@ -1,0 +1,32 @@
+---
+- name: Playbook to configure execution environments
+  hosts: builder
+  gather_facts: false
+  connection: local
+  vars_files:
+    - "../vault.yml"
+  tasks:
+    - name: Get the Execution environment from controller
+      ansible.builtin.set_fact:
+        controller_config_as_code_ee: "{{ lookup('awx.awx.controller_api',
+          'execution_environments', query_params={'name': 'config_as_code'},
+          host=controller_hostname, username=controller_username, password=controller_password, verify_ssl=false) }}"
+
+    - name: Show results of controller
+      ansible.builtin.debug:
+        var: controller_config_as_code_ee
+
+    - name: Pull builder images
+      containers.podman.podman_image:
+        name: "{{ 'hub.' + lookup('ansible.builtin.env', 'INSTRUQT_PARTICIPANT_ID') + '.instruqt.io/config_as_code' }}"
+        username: "{{ ah_username }}"
+        password: "{{ ah_password }}"
+        validate_certs: false
+        force: true
+
+    - name: Check that execution environment exists
+      ansible.builtin.assert:
+        that:
+          - controller_config_as_code_ee.name == 'config_as_code'
+        msg: "Execution Environment name must be config_as_code"
+...

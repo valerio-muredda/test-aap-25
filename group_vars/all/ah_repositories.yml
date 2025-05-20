@@ -1,0 +1,34 @@
+---
+ah_collection_remotes:
+  - name: community-infra
+    url: https://galaxy.ansible.com/
+    requirements:
+      - name: infra.ee_utilities
+        version: ">=3.1.0"
+      - name: infra.aap_utilities
+        version: ">=2.4.0"
+      - name: containers.podman
+        version: ">=1.13.0"
+      - name: awx.awx
+        version: ">=24.3.0"
+      - name: community.general
+        version: ">=8.6.0"
+      - name: infra.ah_configuration
+        version: ">=2.0.0"
+      - name: infra.controller_configuration
+        version: ">=2.7.0"
+      - name: infra.eda_configuration
+        version: ">=1.0.0"
+
+ah_collection_repositories:
+  - name: community-infra-repo
+    description: "description of community-infra repository"
+    pulp_labels:
+      pipeline: "approved"
+    distribution:
+      state: present
+    remote: community-infra
+
+ah_configuration_collection_repository_sync_async_delay: 5
+ah_configuration_collection_repository_sync_async_retries: 150
+...
