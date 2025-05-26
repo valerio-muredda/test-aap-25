@@ -1,6 +1,6 @@
 ---
 - name: Playbook to configure execution environments
-  hosts: "{{ _hosts | default(omit) }}"
+  hosts: all
   become: true
   gather_facts: false
   connection: local
