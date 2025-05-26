@@ -1,7 +1,6 @@
 ---
 - name: Playbook to configure execution environments
-  hosts: "{{ _hosts | default(omit) }}"
-  become: true
+  hosts: builder
   gather_facts: false
   connection: local
   vars_files:
