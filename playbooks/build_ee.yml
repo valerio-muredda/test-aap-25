@@ -1,6 +1,7 @@
 ---
 - name: Playbook to configure execution environments
-  hosts: rhel-1
+  hosts: "{{ _hosts | default(omit) }}"
+  become: true
   gather_facts: false
   connection: local
   vars_files:
