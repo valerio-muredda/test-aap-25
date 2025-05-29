@@ -1,6 +1,15 @@
 ---
-controller_inventories:
-  - name: config_as_code
-    description: inventory for configuring controller
-    organization: config_as_code
+all:
+  children:
+    automationcontroller:
+      hosts:
+        10.132.0.173
+
+    automationhub:
+      hosts:
+        10.132.0.175
+
+    builder:
+      hosts:
+        10.132.0.175
 ...

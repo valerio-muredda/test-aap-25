@@ -1,7 +1,6 @@
 ---
 ee_list:
   - name: "config_as_code"
-    pull: always
     dependencies:
       galaxy:
         collections:
@@ -12,7 +11,7 @@ ee_list:
           - name: infra.ee_utilities
             version: 3.1.2
           - name: awx.awx
-            version: 23.1.0
+            version: 22.4.0
           - name: containers.podman
             version: 1.10.3
           - name: community.general
@@ -23,5 +22,4 @@ ee_image_push: true
 ee_prune_images: false
 ee_create_ansible_config: false
 ee_pull_collections_from_hub: false
-ee_create_controller_def: true
 ...
